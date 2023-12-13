@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@VanillaCX/Errors": "github:VanillaCX/Errors",
+    "@VanillaCX/Identity": "github:VanillaCX/Identity",
     "@VanillaCX/QueryCX": "github:VanillaCX/QueryCX",
     "@VanillaCX/SchemaCX": "github:VanillaCX/SchemaCX",
     "dotenv": "^16.3.1",

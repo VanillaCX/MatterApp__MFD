@@ -34,6 +34,7 @@ app.use((req, res, next) => {
 })
 
 const {Query} = require("@VanillaCX/QueryCX");
+const {KEK} = require("@VanillaCX/Identity");
 
 const query = new Query({
     database: process.env.QUERYCX_DATABASE,
@@ -52,6 +53,20 @@ app.get("/save-to-db", async (req, res) => {
     } catch(error){
         console.log("insertOne error", error);
     }
+})
+
+app.get("/encrypt", async (req, res) => {
+    // Encryption Keys
+    const plaintext = "Please encrypt this";
+    const {keyEncryptionKey, keyEncryptionKeyName} = await KEK.generateKey();
+
+    // Encrypt DEK with KEK
+    const encryptedText = await KEK.encrypt({
+        key: keyEncryptionKey,
+        plaintext: plaintext
+    });
+
+    res.send(`Created key ${keyEncryptionKeyName} and encrypted text ${encryptedText}`)
 })
 
 // Fallback for un-matched requests
