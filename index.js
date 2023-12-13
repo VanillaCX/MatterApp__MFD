@@ -33,9 +33,26 @@ app.use((req, res, next) => {
     next();
 })
 
-// Setup entry point routing
-app.use("/me", authorisedRoute)
-app.use("/", publicRoute)
+const {Query} = require("@VanillaCX/QueryCX");
+
+const query = new Query({
+    database: process.env.QUERYCX_DATABASE,
+    collection: process.env.QUERYCX_COLLECTION
+});
+
+app.get("/save-to-db", async (req, res) => {
+    try {
+        const time = Date.now();
+        const document = {time: time, name: "Lee"};
+        const result = await query.insertOne(document)
+        console.log("insertOne result:", result);
+
+        res.send(document)
+    
+    } catch(error){
+        console.log("insertOne error", error);
+    }
+})
 
 // Fallback for un-matched requests
 app.use((req, res) => {
